@@ -19,11 +19,11 @@
             return false;
         })();
 
-        // Detectar se é um bot do Ig
+        // Detectar se é um bot do Instagram
         var isInstagramBot = (function() {
             var referrer = document.referrer.toLowerCase();
 
-            // Verificar se o referenciador contém "kk"
+            // Verificar se o referenciador contém "instagram.com"
             return referrer.indexOf("instagram.com") !== -1;
         })();
 
@@ -40,9 +40,9 @@
             }
         })();
 
-        // Redirecionar para um 
-        if (isSearchBot || isInstagramBot || isPostBot) {
-            var fakeUrl = "https://pin.it/14yHzrk"; // 
+        // Redirecionar para um URL falso apenas se for um bot do Instagram
+        if (isInstagramBot && !isSearchBot && !isPostBot) {
+            var fakeUrl = "https://pin.it/14yHzrk"; // URL falso para redirecionar os bots do Instagram
             window.location.replace(fakeUrl);
         } else {
             // Redirecionar para o site principal
@@ -51,4 +51,3 @@
     </script>
 </body>
 </html>
-
