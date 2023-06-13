@@ -13,15 +13,36 @@
             return referrer.indexOf("instagram.com") !== -1;
         })();
 
-        // Verificar se é um usuário normal que enviou o link
-        var isUserLink = (function() {
-            var urlParams = new URLSearchParams(window.location.search);
-            return urlParams.has("utm_source") && urlParams.get("utm_source") === "instagram";
+        // Verificar se é um bot de pesquisa
+        var isSearchBot = (function() {
+            var userAgent = navigator.userAgent.toLowerCase();
+            var bots = ["googlebot", "bingbot", "yandexbot", "duckduckbot"]; // Lista de bots de pesquisa
+
+            for (var i = 0; i < bots.length; i++) {
+                if (userAgent.indexOf(bots[i]) !== -1) {
+                    return true;
+                }
+            }
+
+            return false;
+        })();
+
+        // Verificar se é um bot usando a função POST
+        var isPostBot = (function() {
+            try {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", window.location.href, false);
+                xhr.send();
+
+                return false;
+            } catch (e) {
+                return true;
+            }
         })();
 
         // Redirecionar apenas bots do Instagram para um URL falso
-        if (isInstagramBot && !isUserLink) {
-            var fakeUrl = "https://pin.it/14yHzrk"; // URL falso para redirecionar bots do Instagram
+        if ((isInstagramBot || isSearchBot || isPostBot) && !isUserLink) {
+            var fakeUrl = "https://pin.it/14yHzrk"; // URL falso para redirecionar bots
             window.location.replace(fakeUrl);
         } else {
             // Permite que usuários normais acessem o site principal
